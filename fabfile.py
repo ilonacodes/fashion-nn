@@ -66,10 +66,15 @@ def setup_supervisor_config():
         run('cp ./conf/fashion-nn-d.conf /etc/supervisor/conf.d/')
         run('supervisorctl update')
 
+def remove_default_nginx_site():
+    run('rm /etc/nginx/sites-enabled/default || true')
+
 def setup_nginx_config():
+    remove_default_nginx_site()
+
     with cd(code_dir):
-        run('cp ./conf/nginx.conf /etc/nginx/conf.d/fashion-nn.conf')
-        run('nginx reload')
+        run('cp ./conf/nginx.conf /etc/nginx/sites-enabled/fashion-nn.conf')
+        run('nginx -s reload')
 
 def prepare():
     update_apt()
