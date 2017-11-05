@@ -77,3 +77,20 @@ def prepare():
     update_dependencies()
     setup_supervisor_config()
     restart()
+
+# Adding some swap :(
+
+def add_swap():
+    run('mkdir -v /var/cache/swap')
+    with cd('/var/cache/swap'):
+        run('dd if=/dev/zero of=swapfile bs=1K count=2M')
+        run('chmod 600 swapfile')
+        run('mkswap swapfile')
+        run('swapon swapfile')
+
+def setup_swap_for_reboot():
+    run('echo "/var/cache/swap/swapfile none swap sw 0 0" | tee -a /etc/fstab')
+
+def setup_swap():
+    add_swap()
+    setup_swap_for_reboot()
