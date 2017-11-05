@@ -70,10 +70,13 @@ def create_virtualenv():
     with cd(code_dir):
         run('python3 -m venv ./virtualenv3')
 
-def setup_supervisor_config():
-    run('ln -sf %s/conf/fashion-nn-d.conf /etc/supervisor/conf.d/fashion-nn-d.conf' % code_dir)
+def reread_supervisor_config():
     run('supervisorctl reread')
     run('supervisorctl update')
+
+def setup_supervisor_config():
+    run('ln -sf %s/conf/fashion-nn-d.conf /etc/supervisor/conf.d/fashion-nn-d.conf' % code_dir)
+    reread_supervisor_config()
 
 def remove_default_nginx_site():
     run('rm /etc/nginx/sites-enabled/default || true')
