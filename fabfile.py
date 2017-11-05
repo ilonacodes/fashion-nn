@@ -66,6 +66,11 @@ def setup_supervisor_config():
         run('cp ./conf/fashion-nn-d.conf /etc/supervisor/conf.d/')
         run('supervisorctl update')
 
+def setup_nginx_config():
+    with cd(code_dir):
+        run('cp ./conf/nginx.conf /etc/nginx/conf.d/fashion-nn.conf')
+        run('nginx reload')
+
 def prepare():
     update_apt()
     install_nginx()
@@ -77,6 +82,7 @@ def prepare():
     update_dependencies()
     setup_supervisor_config()
     restart()
+    setup_nginx_config()
 
 # Adding some swap :(
 
