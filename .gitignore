@@ -2,6 +2,7 @@
 virtualenv
 virtualenv3
 __pycache__/
+__MACOSX/
 
 20_newsgroup/
 glove/
