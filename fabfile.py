@@ -36,6 +36,11 @@ def update_dependencies():
 def restart():
     run('supervisorctl restart fashion-nn-d')
 
+def deploy():
+    deploy_code()
+    update_dependencies()
+    restart()
+
 def update_apt():
     run('apt-get update -qqyy')
 
@@ -65,6 +70,7 @@ def setup_supervisor_config():
     with cd(code_dir):
         run('cp ./conf/fashion-nn-d.conf /etc/supervisor/conf.d/')
         run('supervisorctl update')
+        run('supervisorctl reread')
 
 def remove_default_nginx_site():
     run('rm /etc/nginx/sites-enabled/default || true')
