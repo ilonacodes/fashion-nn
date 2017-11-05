@@ -1,6 +1,7 @@
 .DS_Store
 virtualenv
 virtualenv3
+__pycache__/
 
 20_newsgroup/
 glove/

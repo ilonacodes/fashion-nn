@@ -6,3 +6,4 @@ matplotlib==2.1.0
 tensorflow==1.1.0
 tensorflow-tensorboard==0.1.8
 fabric3==1.13.1.post1
+waitress==1.1.0

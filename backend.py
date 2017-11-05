@@ -9,11 +9,16 @@ from bottle import route, post, run, template, request, response
 from keras.models import load_model
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
+import tensorflow
 import pickle
 
 MAX_SEQUENCE_LENGTH = 1000
 
 model = load_model('my_model_trained_x8.h5')
+
+# saving TF graph for later use in multi-threaded/evented environment
+# see more: https://github.com/fchollet/keras/issues/2397#issuecomment-254919212
+graph = tensorflow.get_default_graph()
 
 with open('tokenizerx8.pickle', 'rb') as handle:
     tokenizer = pickle.load(handle)
@@ -74,11 +79,15 @@ def classify_article():
     print(article)
     text = article['text']
 
-    resultDict = predict(text)
+    # using a graph constructed from different thread
+    # see more: https://github.com/fchollet/keras/issues/2397#issuecomment-254919212
+    global graph
+    with graph.as_default():
+        resultDict = predict(text)
 
     return {
         "predictions": resultDict
     }
 
 
-run(host='localhost', port='8080', server='wsgiserver')
+run(host='localhost', port='8080', server='waitress')
