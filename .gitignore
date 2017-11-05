@@ -1,0 +1,8 @@
+.DS_Store
+virtualenv
+virtualenv3
+
+20_newsgroup/
+glove/
+
+my_model_trained_x8.h5
