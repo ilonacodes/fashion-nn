@@ -6,6 +6,8 @@ env.hosts = ['139.59.208.165']
 code_dir = '/srv/fashion-nn'
 git_repo = 'https://github.com/ilonacodes/fashion-nn'
 
+# deployment
+
 def check_code_dir():
     return run('test -d %s' % code_dir)
 
@@ -41,6 +43,8 @@ def deploy():
     update_dependencies()
     restart()
 
+# prepare server
+
 def update_apt():
     run('apt-get update -qqyy')
 
@@ -67,10 +71,9 @@ def create_virtualenv():
         run('python3 -m venv ./virtualenv3')
 
 def setup_supervisor_config():
-    with cd(code_dir):
-        run('cp ./conf/fashion-nn-d.conf /etc/supervisor/conf.d/')
-        run('supervisorctl update')
-        run('supervisorctl reread')
+    run('ln -sf %s/conf/fashion-nn-d.conf /etc/supervisor/conf.d/fashion-nn-d.conf' % code_dir)
+    run('supervisorctl reread')
+    run('supervisorctl update')
 
 def remove_default_nginx_site():
     run('rm /etc/nginx/sites-enabled/default || true')
