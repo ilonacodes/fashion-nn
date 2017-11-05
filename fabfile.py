@@ -55,8 +55,9 @@ def update_dependencies():
 def prepare():
     update_apt()
     install_supervisor()
-    deploy_code()
     install_python_3_6()
     install_pip_for_python_3_6()
-    # update_dependencies()
+    deploy_code()
+    create_virtualenv()
+    update_dependencies()
     # setup_supervisor_config()
