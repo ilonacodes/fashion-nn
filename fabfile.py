@@ -71,10 +71,8 @@ def remove_default_nginx_site():
 
 def setup_nginx_config():
     remove_default_nginx_site()
-
-    with cd(code_dir):
-        run('cp ./conf/nginx.conf /etc/nginx/sites-enabled/fashion-nn.conf')
-        run('nginx -s reload')
+    run('ln -s %s/conf/nginx.conf /etc/nginx/sites-enabled/fashion-nn.conf' % code_dir)
+    run('nginx -s reload')
 
 def prepare():
     update_apt()

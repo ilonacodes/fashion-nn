@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {actions} from "../actions/actions";
+import {config} from "../config";
 
 const predictionLabelMapping = {
     'rec.motorcycles': 'motorcycles',
@@ -39,7 +40,7 @@ export const TextClassificationPageComponent = ({
     const classify = () => {
         console.log(articleText);
 
-        fetch('http://localhost:8080/api/classify-article', {
+        fetch(`${config.apiGateway}/api/classify-article`, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
